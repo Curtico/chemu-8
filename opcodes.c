@@ -34,7 +34,13 @@ void print_instruction(uint16_t opcode) {
         case 0x0b: printf("GOTO V0 + 0x%01x%02x\n", bytes[1] - (first_nibble * 16), bytes[0]); break;
         case 0x0c: printf("SET_RAND V%d, 0x%02x\n", bytes[1] - (first_nibble * 16), bytes[0]); break;
         case 0x0d: printf("DRAW V%d, V%d, %d\n", bytes[1] - (first_nibble * 16), bytes[0] >> 4, bytes[0] - ((bytes[0] >> 4) * 16)); break;
-        case 0x0e: printf("Undetermined opcode\n"); break;
+        case 0x0e: {
+                       switch (bytes[0]) {
+                           case 0x9e: printf("SKIP_IF_KEY_PRESSED V%d\n", bytes[1] - (first_nibble * 16)); break;
+                           case 0xa1: printf("SKIP_IF_KEY_NOT_PRESSED V%d\n", bytes[1] - (first_nibble * 16)); break;
+                       }
+                       break;
+                   }
         case 0x0f: printf("Undetermined opcode\n"); break;
     }
 }
